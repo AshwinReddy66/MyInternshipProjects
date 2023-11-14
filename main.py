@@ -1,86 +1,108 @@
-tasks=[]
-def add_tasks():
-    global tasks
-    description = input("enter your description : ")
-    due_date = input("enter your due date : ")
-    status=False
-    task={"description":description,"due_date": due_date,"status":status}
-    tasks.append(task)
-    print("Task added successfully...!1")
-
-def task_displaying():
-    if len(tasks) >= 1:
-      status = "completed"
-
-      for task in tasks:
-        if task['status']:
-            status="completed"
-        else:
-            status="pending"
-        print(f"{tasks.index(task)+1}. {task['description']}, the due date is {task['due_date']}, {status}")
+def introScene():
+  directions = ["left", "right", "forward"]
+  print("You are at a crossroads, and you can choose to go down any of the four hallways. Where would you like to go?")
+  userInput = ""
+  while userInput not in directions:
+    print("Options: left/right/backward/forward")
+    userInput = input()
+    if userInput == "left":
+      showShadowFigure()
+    elif userInput == "right":
+      showSkeletons()
+    elif userInput == "forward":
+      hauntedRoom()
+    elif userInput == "backward":
+      print("You find that this door opens into a wall.")
+    else: 
+      print("Please enter a valid option for the adventure game.")
+def showShadowFigure():
+  directions = ["right", "backward"]
+  print("You see a dark shadowy figure appear in the distance. You are creeped out. Where would you like to go?")
+  userInput = ""
+  while userInput not in directions:
+    print("Options: right/left/backward")
+    userInput = input()
+    if userInput == "right":
+      cameraScene()
+    elif userInput == "left":
+      print("You find that this door opens into a wall.")
+    elif userInput == "backward":
+      introScene()
     else:
-        print("There is no tasks to display")
-
-def task_completion():
-    if len(tasks)>=1:
-       task_displaying()
-       choice=int(input("Enter your task number which you want to mark as completed : "))-1
-       # updated_status=input("Type 'c' if task is completed else type 'p'")
-       print("Status updated successfully")
-       tasks[choice]['status']=True
+      print("Please enter a valid option for the adventure game.")
+def cameraScene():
+  directions = ["forward", "backward"]
+  print("You see a camera that has been dropped on the ground. Someone has been here recently. Where would you like to go?")
+  userInput = ""
+  while userInput not in directions:
+    print("Options: forward/backward")
+    userInput = input()
+    if userInput == "forward":
+      print("You made it! You've found an exit.")
+      quit()
+    elif userInput == "backward":
+      showShadowFigure()
     else:
-        print("There is no tasks to update status")
-
-
-def updating_tasks():
-    if len(tasks) >= 1:
-      task_displaying()
-      choice=int(input("enter the task number which you want to update the details : "))-1
-      new_description=input("whats your new description ?")
-      new_due_date=input("Enter the date ")
-      tasks[choice]['description']=new_description
-      tasks[choice]['due_date']=new_due_date
+      print("Please enter a valid option for the adventure game.")
+def hauntedRoom():
+  directions = ["right", "left", "backward"]
+  print("You hear strange voices. You think you have awoken some of the dead. Where would you like to go?")
+  userInput = ""
+  while userInput not in directions:
+    print("Options: right/left/backward")
+    userInput = input()
+    if userInput == "right":
+      print("Multiple goul-like creatures start emerging as you enter the room. You are killed.")
+      quit()
+    elif userInput == "left":
+      print("You made it! You've found an exit.")
+      quit()
+    elif userInput == "backward":
+      introScene()
     else:
-        print("There is no tasks to update")
-
-def removing_tasks():
-    if len(tasks) >= 1:
-      task_displaying()
-      choice = int(input("enter the task number which you want to remove : ")) - 1
-      del tasks[choice]
-      print("Task removed successfully")
+      print("Please enter a valid option for the adventure game.")
+def showSkeletons():
+  directions = ["backward", "forward"]
+  global weapon
+  print("You see a wall of skeletons as you walk into the room. Someone is watching you. Where would you like to go?")
+  userInput = ""
+  while userInput not in directions:
+    print("Options: left/backward/forward")
+    userInput = input()
+    if userInput == "left":
+      print("You find that this door opens into a wall. You open some of the drywall to discover a knife.")
+      weapon = True
+    elif userInput == "backward":
+      introScene()
+    elif userInput == "forward":
+      strangeCreature()
     else:
-        print("There is no tasks in your todo list")
-
-
-print("welome to todo list")
-adding_tasks_todolist=True
-while adding_tasks_todolist:
-
-   print("""
-    1.Add task
-    2.Display the tasks
-    3.update status of the task
-    4.Update task details
-    5.Remove task
-    6.Exit(This will delete your to do list tasks)
-    """)
-
-   option=int(input("chose which you want to do from the list"))
-   if option==1:
-      add_tasks()
-   elif option==2:
-      task_displaying()
-   elif option==3:
-     task_completion()
-   elif option==4:
-       updating_tasks()
-   elif option==5:
-       removing_tasks()
-   elif option==6:
-       adding_tasks_todolist=False
-   else :
-      op=input("invalid choice, choose a valid option")
-      option=int(op)
-
-
+      print("Please enter a valid option for the adventure game.")
+def strangeCreature():
+  actions = ["fight", "flee"]
+  global weapon
+  print("A strange goul-like creature has appeared. You can either run or fight it. What would you like to do?")
+  userInput = ""
+  while userInput not in actions:
+    print("Options: flee/fight")
+    userInput = input()
+    if userInput == "fight":
+      if weapon:
+        print("You kill the goul with the knife you found earlier. After moving forward, you find one of the exits. Congrats!")
+      else:
+        print("The goul-like creature has killed you.")
+      quit()
+    elif userInput == "flee":
+      showSkeletons()
+    else:
+      print("Please enter a valid option for the adventure game.")
+if __name__ == "__main__":
+  while True:
+    print("Welcome to the Adventure Game!")
+    print("As an avid traveler, you have decided to visit the Catacombs of Paris.")
+    print("However, during your exploration, you find yourself lost.")
+    print("You can choose to walk in multiple directions to find a way out.")
+    print("Let's start with your name: ")
+    name = input()
+    print("Good luck, " +name+ ".")
+    introScene()
